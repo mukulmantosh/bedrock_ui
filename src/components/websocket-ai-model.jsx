@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import { GoDotFill } from "react-icons/go";
-
+import '../styles/common.css'
+import { ReactTyped } from "react-typed";
 
 
 function WebSocketComponent() {
@@ -15,7 +16,6 @@ function WebSocketComponent() {
 
         websocket.onmessage = (event) => {
             const formatted = event.data.replace(/\s+/g, ' ').trim();
-
             setMessage(prevState => prevState + formatted + "\n") // Append streaming text
         }
         websocket.onopen = () => {
@@ -83,7 +83,7 @@ function WebSocketComponent() {
                     <div className="column is-8">
                         <div className="card">
                             <div className="card-content">
-                                <p className="subtitle has-text-grey">{message}</p>
+                                <ReactTyped className="subtitle has-text-grey typing-text" strings={[message]} typeSpeed={10}  />
                             </div>
                         </div>
 
