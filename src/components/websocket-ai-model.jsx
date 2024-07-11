@@ -6,16 +6,22 @@ import { ReactTyped } from "react-typed";
 
 function WebSocketComponent() {
     const [connectionStatus, setConnectionStatus] = useState({});
+    const [Streaming, setStreaming] = useState(false);
     const [message, setMessage] = useState('');
     const [ws, setWs] = useState(null)
     const [textValue, setTextValue] = useState('')
 
     useEffect(() => {
-        const websocket = new WebSocket('ws://localhost:8080/ws/model');
+        let webSocketURL = 'ws://localhost:8080/ws/model?streaming=' + Streaming.toString()
+        const websocket = new WebSocket(webSocketURL);
         setWs(websocket);
 
         websocket.onmessage = (event) => {
-            setMessage(prevState => prevState + event.data + "\n") // Append streaming text
+            if (Streaming) {
+                setMessage(prevState => prevState + event.data + "\n") // Append streaming text
+            }else{
+                setMessage(event.data + "\n")
+            }
         }
         websocket.onopen = () => {
             setConnectionStatus({
@@ -38,7 +44,7 @@ function WebSocketComponent() {
             });
         };
 
-    }, []);
+    }, [Streaming]);
 
     const sendMessage = () => {
         if (ws){
@@ -47,6 +53,19 @@ function WebSocketComponent() {
             ws.send(textValue);
         }
     }
+
+    const renderContent = () => {
+        if(Streaming) {
+            return (<p className="subtitle has-text-grey typing-text">{message}</p>)
+        }else{
+            return (<ReactTyped className="subtitle has-text-grey typing-text" strings={[message]} typeSpeed={10}  />)
+        }
+    }
+
+    const handleStreamChange = (e) => {
+        setStreaming(e.target.checked);
+    }
+
 
 
     return (
@@ -66,6 +85,16 @@ function WebSocketComponent() {
                                         <option>Llama3 70B</option>
                                     </select>
                                 </div>
+
+                                <div className="columns">
+                                    <div className="column is-three-quarters">
+                                    </div>
+                                    <div className="column is-one-quarter is-flex is-justify-content-flex-end">
+                                        <div><input type="checkbox" onChange={handleStreamChange}/><span className="ml-2">Stream</span></div>
+                                    </div>
+                                </div>
+
+
                                 <textarea value={textValue}
                                           onChange={(event) => setTextValue(event.target.value)}
                                           className="textarea is-focused">
@@ -90,9 +119,9 @@ function WebSocketComponent() {
                         </div>
                     </div>
                     <div className="column is-8">
-                    <div className="card">
+                        <div className="card">
                             <div className="card-content">
-                                <ReactTyped className="subtitle has-text-grey typing-text" strings={[message]} typeSpeed={10}  />
+                                {renderContent()}
                             </div>
                         </div>
                     </div>

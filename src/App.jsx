@@ -1,6 +1,7 @@
 import WebSocketComponent from "./components/websocket-ai-model.jsx";
 import 'bulma/css/bulma.min.css'
 
+
 function App() {
 
   return (
