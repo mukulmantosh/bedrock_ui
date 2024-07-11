@@ -1,61 +1,73 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
-import '../styles/common.css'
+import "../styles/common.css";
 import { ReactTyped } from "react-typed";
 
+const WEBSOCKET_URL = "ws://localhost:8080/ws/model";
+const MODEL_ONLINE = {text: "Model Online", label: "has-text-success"};
+const MODEL_OFFLINE = {text: "Model Offline", label: "has-text-danger"};
+const AVAILABLE_MODELS = ["llama3", "anthropic"];
 
 function WebSocketComponent() {
-    const [connectionStatus, setConnectionStatus] = useState({});
-    const [Streaming, setStreaming] = useState(false);
-    const [message, setMessage] = useState('');
-    const [ws, setWs] = useState(null)
-    const [textValue, setTextValue] = useState('')
+    const [connectionStatus, setConnectionStatus] = useState(MODEL_OFFLINE);
+    const [isStreaming, setIsStreaming] = useState(false);
+    const [message, setMessage] = useState("");
+    const [webSocket, setWebSocket] = useState(null);
+    const [textValue, setTextValue] = useState("");
+    const [selectedOption, setSelectedOption] = useState(AVAILABLE_MODELS[0]);
+
+    const initializeWebSocketHandlers = (webSocket) => {
+        webSocket.onmessage = (event) => {
+            if (isStreaming) {
+                setMessage((prevState) => prevState + event.data + "\n"); // Append streaming text
+            } else {
+                setMessage(event.data + "\n");
+            }
+        };
+
+        webSocket.onopen = () => {
+            setConnectionStatus(MODEL_ONLINE);
+            console.log("WebSocket Connected!");
+        };
+
+    };
 
     useEffect(() => {
-        let webSocketURL = 'ws://localhost:8080/ws/model?streaming=' + Streaming.toString()
-        const websocket = new WebSocket(webSocketURL);
-        setWs(websocket);
-
-        websocket.onmessage = (event) => {
-            if (Streaming) {
-                setMessage(prevState => prevState + event.data + "\n") // Append streaming text
-            }else{
-                setMessage(event.data + "\n")
-            }
-        }
-        websocket.onopen = () => {
-            setConnectionStatus({
-                "text": "Model Online",
-                "label": "has-text-success"
-            });
-            console.log('WebSocket Connected!');
-        }
-
-
+        const webSocketURL =
+            `${WEBSOCKET_URL}?streaming=${isStreaming}&model=${selectedOption}`;
+        const webSocketInstance = new WebSocket(webSocketURL);
+        setWebSocket(webSocketInstance);
+        initializeWebSocketHandlers(webSocketInstance);
 
 
         // cleanup
         return () => {
-            websocket.close();
-            setWs(null);
-            setConnectionStatus({
-                "text": "Model Offline",
-                "label": "has-text-danger"
-            });
-        };
+            webSocketInstance.close();
+            setWebSocket(null);
+            setConnectionStatus(MODEL_OFFLINE);
 
-    }, [Streaming]);
+        };
+    }, [isStreaming, selectedOption]);
 
     const sendMessage = () => {
-        if (ws){
+        if (webSocket){
             // clear messages
-            setMessage('')
-            ws.send(textValue);
+            clearMessages()
+            webSocket.send(textValue);
         }
     }
 
+    const clearMessages = () => {
+        setMessage("");
+    }
+
+    const renderOptions = () => (
+        AVAILABLE_MODELS.map(model => (<option key={model} value={model}>{model}</option>))
+    );
+
+
     const renderContent = () => {
-        if(Streaming) {
+        if(isStreaming) {
             return (<p className="subtitle has-text-grey typing-text">{message}</p>)
         }else{
             return (<ReactTyped className="subtitle has-text-grey typing-text" strings={[message]} typeSpeed={10}  />)
@@ -63,8 +75,13 @@ function WebSocketComponent() {
     }
 
     const handleStreamChange = (e) => {
-        setStreaming(e.target.checked);
+        setIsStreaming(e.target.checked);
     }
+
+    const handleDropdownChange = (event) => {
+        setSelectedOption(event.target.value);
+    }
+
 
 
 
@@ -76,13 +93,8 @@ function WebSocketComponent() {
                         <div className="card">
                             <div className="card-content">
                                 <div className="select is-info mb-4">
-                                    <select>
-                                        <option>Amazon Titan Text G1 - Lite</option>
-                                        <option>Titan Text G1 - Express</option>
-                                        <option>Claude 3 Sonnet</option>
-                                        <option>Claude 3 Haiku</option>
-                                        <option>Llama3 8B</option>
-                                        <option>Llama3 70B</option>
+                                    <select value={selectedOption} onChange={handleDropdownChange}>
+                                        {renderOptions()}
                                     </select>
                                 </div>
 
@@ -98,7 +110,7 @@ function WebSocketComponent() {
                                 <textarea value={textValue}
                                           onChange={(event) => setTextValue(event.target.value)}
                                           className="textarea is-focused">
-                         </textarea>
+                                </textarea>
 
                                 <div className="fixed-grid has-6-cols">
                                     <div className="grid">
