@@ -1,19 +1,23 @@
-import WebSocketComponent from "./components/websocket-ai-model.jsx";
-import 'bulma/css/bulma.min.css'
+import WebSocketComponent from "./components/websocket-ai-model";
+import ImagesComponent from "./components/images";
+import Background from "./images/background.jpg";
+import './styles/common.css';
+import 'bulma/css/bulma.min.css';
+
 
 
 function App() {
 
   return (
-      <div>
+      <div className="background" style={{ backgroundImage: `url(${Background})` }}>
           <section className="hero">
               <div className="hero-body">
-                  <p className="title">AWS Bedrock with Go</p>
-                  <p className="subtitle">Playing with foundational AI models</p>
+                  <p className="title text">AWS Bedrock with Go</p>
               </div>
           </section>
 
           <WebSocketComponent/>
+          <ImagesComponent/>
       </div>
   )
 }
