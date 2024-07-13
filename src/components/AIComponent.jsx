@@ -8,7 +8,7 @@ const MODEL_ONLINE = {text: "Model Online", label: "has-text-success"};
 const MODEL_OFFLINE = {text: "Model Offline", label: "has-text-danger"};
 const AVAILABLE_MODELS = ["llama3", "anthropic"];
 
-function WebSocketComponent() {
+function AIComponent() {
     const [connectionStatus, setConnectionStatus] = useState(MODEL_OFFLINE);
     const [isStreaming, setIsStreaming] = useState(false);
     const [message, setMessage] = useState("");
@@ -144,4 +144,4 @@ function WebSocketComponent() {
 
 }
 
-export default WebSocketComponent;
+export default AIComponent;

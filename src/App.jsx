@@ -1,8 +1,8 @@
-import WebSocketComponent from "./components/websocket-ai-model";
-import ImagesComponent from "./components/images";
+import AIComponent from "./components/AIComponent";
+import AILogoComponent from "./components/AILogoComponent";
 import Background from "./images/background.jpg";
 import './styles/common.css';
-import 'bulma/css/bulma.min.css';
+import 'bulma/css/bulma.css';
 
 
 
@@ -16,8 +16,8 @@ function App() {
               </div>
           </section>
 
-          <WebSocketComponent/>
-          <ImagesComponent/>
+          <AIComponent/>
+          <AILogoComponent/>
       </div>
   )
 }

@@ -3,7 +3,7 @@ import LlamaLogo from '/images/llama.png'
 import AI21Logo from '/images/ai21.png'
 import MistralAiLogo from '/images/mistral_ai.png'
 
-function ImagesComponent() {
+function AILogoComponent() {
     return (
 
         <div className="columns is-mobile mt-6">
@@ -58,4 +58,4 @@ function ImagesComponent() {
     )
 }
 
-export default ImagesComponent
+export default AILogoComponent
