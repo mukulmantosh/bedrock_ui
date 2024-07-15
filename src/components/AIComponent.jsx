@@ -1,5 +1,6 @@
 import useWebSocket from "../hooks/useWebSocket";
 import { GoDotFill } from "react-icons/go";
+import AIResponse from "./AIResponse.jsx";
 
 
 function AIComponent() {
@@ -8,9 +9,10 @@ function AIComponent() {
         selectedOption,
         textValue,
         setTextValue,
+        message,
+        isStreaming,
         sendMessage,
         renderOptions,
-        renderContent,
         handleStreamChange,
         handleDropdownChange } = useWebSocket();
 
@@ -62,7 +64,7 @@ function AIComponent() {
                     <div className="column is-8">
                         <div className="card">
                             <div className="card-content">
-                                {renderContent()}
+                                <AIResponse message={message} className="subtitle has-text-grey typing-text" streaming={isStreaming}/>
                             </div>
                         </div>
                     </div>

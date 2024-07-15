@@ -63,15 +63,6 @@ function useWebSocket() {
         AVAILABLE_MODELS.map(model => (<option key={model} value={model}>{model}</option>))
     );
 
-
-    const renderContent = () => {
-        if(isStreaming) {
-            return (<p className="subtitle has-text-grey typing-text">{message}</p>)
-        }else{
-            return (<ReactTyped className="subtitle has-text-grey typing-text" strings={[message]} typeSpeed={10}  />)
-        }
-    }
-
     const handleStreamChange = (e) => {
         setIsStreaming(e.target.checked);
     }
@@ -87,8 +78,9 @@ function useWebSocket() {
             textValue,
             setTextValue,
             sendMessage,
+            message,
+            isStreaming,
             renderOptions,
-            renderContent,
             handleStreamChange,
             handleDropdownChange
     };
