@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import {ReactTyped} from "react-typed";
 
 const WEBSOCKET_URL = "ws://localhost:8080/ws/model";
 const MODEL_ONLINE = {text: "Model Online", label: "has-text-success"};
@@ -11,7 +10,7 @@ function useWebSocket() {
     const [isStreaming, setIsStreaming] = useState(false);
     const [message, setMessage] = useState("");
     const [webSocket, setWebSocket] = useState(null);
-    const [textValue, setTextValue] = useState("");
+    const [textValue, setTextValue] = useState(""); // textarea
     const [selectedOption, setSelectedOption] = useState(AVAILABLE_MODELS[0]);
 
     const initializeWebSocketHandlers = (webSocket) => {
@@ -64,6 +63,7 @@ function useWebSocket() {
     );
 
     const handleStreamChange = (e) => {
+        setMessage("");
         setIsStreaming(e.target.checked);
     }
 
