@@ -24,7 +24,7 @@ function useWebSocket() {
 
         webSocket.onopen = () => {
             setConnectionStatus(MODEL_ONLINE);
-            console.log("WebSocket Connected!");
+            console.log("WebSocket Connected! | Model ->" + selectedOption);
         };
 
     };
@@ -44,7 +44,7 @@ function useWebSocket() {
             setConnectionStatus(MODEL_OFFLINE);
 
         };
-    }, [isStreaming, selectedOption]);
+    }, [selectedOption, isStreaming]);
 
     const sendMessage = () => {
         if (webSocket){
@@ -63,11 +63,12 @@ function useWebSocket() {
     );
 
     const handleStreamChange = (e) => {
-        setMessage("");
+        setMessage('')
         setIsStreaming(e.target.checked);
     }
 
     const handleDropdownChange = (event) => {
+        console.log(event.target.value);
         setSelectedOption(event.target.value);
     }
 

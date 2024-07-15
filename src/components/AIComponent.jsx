@@ -1,7 +1,7 @@
 import useWebSocket from "../hooks/useWebSocket";
-import { GoDotFill } from "react-icons/go";
 import AIResponse from "./AIResponse.jsx";
-
+import ConnectionStatusComponent from '../components/ConnectionStatusComponent';
+import StreamCheckbox from '../components/StreamCheckbox';
 
 function AIComponent() {
     const {
@@ -20,7 +20,7 @@ function AIComponent() {
         <div>
             <div className="container">
                 <div className="columns">
-                    <div className="column is-8">
+                    <div className="column is-6">
                         <div className="card">
                             <div className="card-content">
                                 <div className="select is-info mb-4">
@@ -30,10 +30,8 @@ function AIComponent() {
                                 </div>
 
                                 <div className="columns">
-                                    <div className="column is-three-quarters">
-                                    </div>
-                                    <div className="column is-one-quarter is-flex is-justify-content-flex-end">
-                                        <div><input type="checkbox" onChange={handleStreamChange}/><span className="ml-2">Stream</span></div>
+                                    <div className="column">
+                                        <StreamCheckbox handleStreamChange={handleStreamChange} />
                                     </div>
                                 </div>
 
@@ -52,10 +50,7 @@ function AIComponent() {
                                             </button>
                                         </div>
                                         <div className="cell is-col-span-4"></div>
-                                        <div className="cell mt-4">
-                                            <GoDotFill className={connectionStatus?.label}/>
-                                            <span className={connectionStatus?.label}> {connectionStatus?.text}</span>
-                                        </div>
+                                        <ConnectionStatusComponent connectionStatus={connectionStatus} />
                                     </div>
                                 </div>
                             </div>
