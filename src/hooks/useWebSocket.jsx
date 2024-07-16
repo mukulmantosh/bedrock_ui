@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 const WEBSOCKET_URL = "ws://localhost:8080/ws/model";
 const MODEL_ONLINE = {text: "Model Online", label: "has-text-success"};
 const MODEL_OFFLINE = {text: "Model Offline", label: "has-text-danger"};
-const AVAILABLE_MODELS = ["llama3", "anthropic"];
+const availableModels = ["llama3", "anthropic"];
 
 function useWebSocket() {
     const [connectionStatus, setConnectionStatus] = useState(MODEL_OFFLINE);
@@ -11,7 +11,7 @@ function useWebSocket() {
     const [message, setMessage] = useState("");
     const [webSocket, setWebSocket] = useState(null);
     const [textValue, setTextValue] = useState(""); // textarea
-    const [selectedOption, setSelectedOption] = useState(AVAILABLE_MODELS[0]);
+    const [selectedOption, setSelectedOption] = useState(availableModels[0]);
 
     const initializeWebSocketHandlers = (webSocket) => {
         webSocket.onmessage = (event) => {
@@ -30,8 +30,7 @@ function useWebSocket() {
     };
 
     useEffect(() => {
-        const webSocketURL =
-            `${WEBSOCKET_URL}?streaming=${isStreaming}&model=${selectedOption}`;
+        const webSocketURL = `${WEBSOCKET_URL}?streaming=${isStreaming}&model=${selectedOption}`;
         const webSocketInstance = new WebSocket(webSocketURL);
         setWebSocket(webSocketInstance);
         initializeWebSocketHandlers(webSocketInstance);
@@ -42,6 +41,7 @@ function useWebSocket() {
             webSocketInstance.close();
             setWebSocket(null);
             setConnectionStatus(MODEL_OFFLINE);
+            setMessage("");
 
         };
     }, [selectedOption, isStreaming]);
@@ -57,10 +57,6 @@ function useWebSocket() {
     const clearMessages = () => {
         setMessage("");
     }
-
-    const renderOptions = () => (
-        AVAILABLE_MODELS.map(model => (<option key={model} value={model}>{model}</option>))
-    );
 
     const handleStreamChange = (e) => {
         setMessage('')
@@ -78,10 +74,10 @@ function useWebSocket() {
             selectedOption,
             textValue,
             setTextValue,
-            sendMessage,
             message,
             isStreaming,
-            renderOptions,
+            availableModels,
+            sendMessage,
             handleStreamChange,
             handleDropdownChange
     };

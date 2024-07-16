@@ -1,7 +1,10 @@
 import useWebSocket from "../hooks/useWebSocket";
-import AIResponse from "./AIResponse.jsx";
-import ConnectionStatusComponent from '../components/ConnectionStatusComponent';
+import AIResponse from "../components/AIResponse.jsx";
+import ConnectionStatus from '../components/ConnectionStatus.jsx';
 import StreamCheckbox from '../components/StreamCheckbox';
+import AIModel from "../components/AIModel";
+import SendMessage from "../components/SendMessage";
+import TextArea from "../components/TextArea";
 
 function AIComponent() {
     const {
@@ -11,8 +14,8 @@ function AIComponent() {
         setTextValue,
         message,
         isStreaming,
+        availableModels,
         sendMessage,
-        renderOptions,
         handleStreamChange,
         handleDropdownChange } = useWebSocket();
 
@@ -25,7 +28,7 @@ function AIComponent() {
                             <div className="card-content">
                                 <div className="select is-info mb-4">
                                     <select value={selectedOption} onChange={handleDropdownChange}>
-                                        {renderOptions()}
+                                        <AIModel models={availableModels}/>
                                     </select>
                                 </div>
 
@@ -34,23 +37,14 @@ function AIComponent() {
                                         <StreamCheckbox handleStreamChange={handleStreamChange} />
                                     </div>
                                 </div>
-
-
-                                <textarea value={textValue}
-                                          onChange={(event) => setTextValue(event.target.value)}
-                                          className="textarea is-focused">
-                                </textarea>
-
+                                <TextArea textValue={textValue} setTextValue={setTextValue}/>
                                 <div className="fixed-grid has-6-cols">
                                     <div className="grid">
                                         <div className="cell">
-                                            <button className="button is-primary is-medium mt-4 has-text-white"
-                                                    onClick={sendMessage}>
-                                                Send Message
-                                            </button>
+                                            <SendMessage message={sendMessage}/>
                                         </div>
                                         <div className="cell is-col-span-4"></div>
-                                        <ConnectionStatusComponent connectionStatus={connectionStatus} />
+                                        <ConnectionStatus status={connectionStatus} />
                                     </div>
                                 </div>
                             </div>
