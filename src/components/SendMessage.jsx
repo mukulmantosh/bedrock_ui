@@ -1,7 +1,7 @@
 
 function sendMessage({message}) {
     return (
-        <button className="button is-primary is-medium mt-4 has-text-white"
+        <button className="button is-primary is-medium has-text-white"
             onClick={message}>
         Send Message
     </button>

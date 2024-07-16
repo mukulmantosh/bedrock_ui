@@ -34,23 +34,23 @@ function AIComponent() {
 
                                 <div className="columns">
                                     <div className="column">
-                                        <StreamCheckbox handleStreamChange={handleStreamChange} />
+                                        <StreamCheckbox handleStreamChange={handleStreamChange}/>
                                     </div>
                                 </div>
-                                <TextArea textValue={textValue} setTextValue={setTextValue}/>
-                                <div className="fixed-grid has-6-cols">
-                                    <div className="grid">
-                                        <div className="cell">
-                                            <SendMessage message={sendMessage}/>
-                                        </div>
-                                        <div className="cell is-col-span-4"></div>
-                                        <ConnectionStatus status={connectionStatus} />
+
+                                <div className="columns">
+                                    <div className="column">
+                                         <TextArea textValue={textValue} setTextValue={setTextValue}/>
                                     </div>
+                                </div>
+                                <div className="colums">
+                                    <div className="column"><SendMessage message={sendMessage}/></div>
+                                    <div className="column"><ConnectionStatus status={connectionStatus}/></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="column is-8">
+                    <div className="column is-6">
                         <div className="card">
                             <div className="card-content">
                                 <AIResponse message={message} className="subtitle has-text-grey typing-text" streaming={isStreaming}/>
