@@ -11,7 +11,7 @@ function App() {
       <div className={styles.backgroundImage}>
           <section className="hero">
               <div className="hero-body">
-                  <p className="title">AWS Bedrock with Go</p>
+                  <p className="title has-text-black">AWS Bedrock with Go</p>
               </div>
           </section>
 
