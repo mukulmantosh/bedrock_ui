@@ -1,4 +1,7 @@
-# AWS Bedrock with React
+# Bedrock Trio: AWS, React & Go
+
+![background](./misc/images/background.png)
+
 
 This repository relies on the following repo [AWS Bedrock with Go][repo]. We will be setting up the frontend.
 
