@@ -16,4 +16,9 @@ Before starting up this project, make sure you have the necessary dependencies i
 - [x] [WebStorm](https://www.jetbrains.com/webstorm/) - The JavaScript and TypeScript IDE.
 
 
+### Tutorial
+
+You can follow the tutorial step by step by clicking on this link => [AI Assistant with AWS Bedrock and Go](https://www.jetbrains.com/guide/go/tutorials/bedrock_with_go/).
+
+
 [repo]: https://github.com/mukulmantosh/goapp_genai
